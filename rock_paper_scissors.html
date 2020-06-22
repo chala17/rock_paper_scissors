@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Rock Paper Scissors</title>
+    </head>
+    <body>
+        <script>
+            function computerPlay() {
+                let play = Math.floor((Math.random() * 3) + 1);
+                switch (play) {
+                    case 1:
+                        return "rock";
+                        break;
+                    case 2:
+                        return "paper";
+                        break;
+                    case 3:
+                        return "scissors";
+                        break;
+                }
+            }
+
+            function playRound(playerSelection, computerSelection) {
+                let player = playerSelection.toLowerCase();
+                let computer = computerSelection.toLowerCase();
+                if (player != "rock" && player != "paper" && player != "scissors") {
+                    return "pick again";
+                }
+                else if (player === computer) {
+                    return "tie";
+                }
+                else if ((player === 'rock' && computer === 'scissors') || 
+                (player === 'scissors' && computer === 'paper') || 
+                (player === 'paper' && computer === 'rock')) {
+                    return "player";
+                }
+                else {
+                    return "computer";
+                }
+            }
+
+            function game() {
+                let computerScore = 0;
+                let playerScore = 0;
+                while (true) {
+                    let player = prompt("Pick one: Rock, Paper, or Scissors?");
+                    let computer = computerPlay();
+                    let result = playRound(player, computer);
+                    if (result === "pick again") {
+                        console.log("I've never seen someone distort their hand in such an ugly fashion! Just pick rock paper or scissors you monster!");
+                        continue;
+                    }
+                    else if (result === "tie") {
+                        console.log("It was a tie! Shoot again!")
+                    }
+                    else if (result === "player") {
+                        playerScore++;
+                        console.log(`You win this round! ${player} beats ${computer}!`);
+                    }
+                    else {
+                        computerScore++;
+                        console.log(`You lose this round! ${player} loses to ${computer}!`);
+                    }
+                    if ((playerScore + computerScore) === 5) {
+                        break;
+                    }
+                }
+                if (playerScore < computerScore) {
+                    return `You lost by a score of: ${playerScore} to ${computerScore}`;
+                }
+                else {
+                    return `You won by a score of: ${playerScore} to ${computerScore}`;
+                }
+            }
+        </script>
+    </body>
+</html>
