@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Rock Paper Scissors</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+    <body>
+        <h1>Welcome to the Wonderful World of Rocks Papers Scissor!</h1>
+        <p>Select your weapon by clicking one of the buttons below. This tournament will be best of 9, with the player reaching 5 points first
+            being declared victorious. Ready your strategy and pick a button to begin!
+        </p>
+        <div>
+            <button id="rock">ROCK</button>
+            <button id="paper">PAPER</button>
+            <button id="scissors">SCISSORS</button>
+        </div>
+        <div id='scoreboard'>
+
+        </div>
+        <script>
+
+            const buttons = document.querySelectorAll('button');
+            const scoreboard = document.querySelector('#scoreboard');
+
+            let computerScore = 0;
+            let playerScore = 0;
+            let played = false;
+
+            function computerPlay() {
+                let play = Math.floor((Math.random() * 3) + 1);
+                switch (play) {
+                    case 1:
+                        return "rock";
+                        break;
+                    case 2:
+                        return "paper";
+                        break;
+                    case 3:
+                        return "scissors";
+                        break;
+                }
+            }
+
+            function playRound(playerSelection) {
+                let player = playerSelection;
+                let computer = computerPlay();
+                let message = '';
+                const scoreboard = document.querySelector('#scoreboard');
+
+                if (player === computer) {
+                    message = `It was a tie! Shoot again!`;
+                }
+                else if ((player === 'rock' && computer === 'scissors') || 
+                (player === 'scissors' && computer === 'paper') || 
+                (player === 'paper' && computer === 'rock')) {
+                    playerScore++;
+                    message = `Nice, ${player} beats ${computer}!`;
+                }
+                else {
+                    computerScore++;
+                    message = `Oh no, ${player} loses to ${computer}!`;
+                }
+
+                let div = document.createElement('div');
+                div.textContent = message;
+                div.textContent += `\r\nPlayer: ${playerScore}  Computer: ${computerScore}`;
+                div.setAttribute('style', 'white-space: pre;');
+                scoreboard.appendChild(div);
+                
+                if (playerScore === 5) {
+                    let div2 = document.createElement('div');
+                    div2.textContent = `You win! You have bested the almighty computer!\r\nChoose your weapon to begin another battle!`;
+                    div2.setAttribute('style', 'white-space: pre;');
+                    scoreboard.appendChild(div2);
+                    played = false;
+                    playerScore = 0;
+                    computerScore = 0;
+                }
+                if (computerScore === 5) {
+                    let div2 = document.createElement('div');
+                    div2.textContent = `Ah! The computer has defeated you!\r\nChoose your weapon to begin another battle!`;
+                    div2.setAttribute('style', 'white-space: pre;');
+                    scoreboard.appendChild(div2);
+                    played = false;
+                    playerScore = 0;
+                    computerScore = 0; 
+                }
+            }
+
+            buttons.forEach((button) => {
+
+                button.addEventListener('click', () => {
+                    if (!played) {
+                        let scoreboard = document.querySelector('#scoreboard');
+                        while(scoreboard.firstChild) {
+                            scoreboard.removeChild(scoreboard.firstChild);
+                        }
+                    }
+                    played = true;
+                    playRound(button.id);
+                });
+            });
+
+        </script>
+    </body>
+</html>
